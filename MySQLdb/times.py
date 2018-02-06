@@ -3,7 +3,9 @@
 This module provides some Date and Time classes for dealing with MySQL data.
 
 Use Python datetime module to handle date and time columns."""
-
+import sys
+import os
+sys.path.append(str(os.sep).join([str(os.getenv("HOME")), 'workspace','dbtest2']))
 import math
 from time import localtime
 from datetime import date, datetime, time, timedelta
