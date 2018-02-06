@@ -15,8 +15,11 @@ MySQLdb.converters module.
 
 __revision__ = """$Revision$"""[11:-2]
 from MySQLdb.release import __version__, version_info, __author__
+from MySQLdb.constants import FIELD_TYPE
+from MySQLdb.times import Date, Time, Timestamp, \
+    DateFromTicks, TimeFromTicks, TimestampFromTicks
 
-import _mysql
+
 
 if version_info != _mysql.version_info:
     raise ImportError("this is MySQLdb version %s, but _mysql is version %r" %
@@ -25,11 +28,12 @@ if version_info != _mysql.version_info:
 threadsafety = 1
 apilevel = "2.0"
 paramstyle = "format"
-
+import sys
+import os
+sys.path.append(str(os.sep).join([str(os.getenv("HOME")), 'workspace','dbtest2']))
+import _mysql
 from _mysql import *
-from MySQLdb.constants import FIELD_TYPE
-from MySQLdb.times import Date, Time, Timestamp, \
-    DateFromTicks, TimeFromTicks, TimestampFromTicks
+
 
 try:
     frozenset
