@@ -32,7 +32,6 @@ MySQL.connect().
 
 """
 
-from _mysql import string_literal, escape_sequence, escape_dict, escape, NULL
 from MySQLdb.constants import FIELD_TYPE, FLAG
 from MySQLdb.times import *
 
@@ -57,6 +56,11 @@ try:
     set
 except NameError:
     from sets import Set as set
+    
+import sys
+import os
+sys.path.append(str(os.sep).join([str(os.getenv("HOME")), 'workspace','dbtest2']))
+from _mysql import string_literal, escape_sequence, escape_dict, escape, NULL
 
 def Bool2Str(s, d): return str(int(s))
 

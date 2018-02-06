@@ -7,11 +7,16 @@ override Connection.default_cursor with a non-standard Cursor class.
 
 """
 from MySQLdb import cursors
+import types
+import re
+import sys
+import os
+sys.path.append(str(os.sep).join([str(os.getenv("HOME")), 'workspace','dbtest2']))
 from _mysql_exceptions import Warning, Error, InterfaceError, DataError, \
      DatabaseError, OperationalError, IntegrityError, InternalError, \
      NotSupportedError, ProgrammingError
-import types, _mysql
-import re
+from _mysql
+
 
 
 def defaulterrorhandler(connection, cursor, errorclass, errorvalue):

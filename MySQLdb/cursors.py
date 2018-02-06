@@ -4,9 +4,10 @@ This module implements Cursors of various types for MySQLdb. By
 default, MySQLdb uses the Cursor class.
 
 """
-
-import re
 import sys
+import os
+sys.path.append(str(os.sep).join([str(os.getenv("HOME")), 'workspace','dbtest2']))
+import re
 try:
     from types import ListType, TupleType, UnicodeType
 except ImportError:
