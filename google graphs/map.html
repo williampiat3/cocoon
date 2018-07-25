@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta http-equiv="refresh" content="900">
+  </head>
+  <body>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+  google.charts.load('current', { 'packages': ['map'] });
+    google.charts.setOnLoadCallback(drawMap);
+  function httpGetAsync(theUrl, callback)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            var array= JSON.parse(xmlHttp.responseText);
+        	callback(array);
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
+    xmlHttp.send(null);
+}
+   
+
+  function drawMap() {
+  	var theUrl="https://script.google.com/a/cocoon.ly/macros/s/AKfycbwwVLWRQRuoOLhWG76RTsu4XVlD2BXl5a0gUf7JzEVTzbZmjENe/exec?data=map";
+    httpGetAsync(theUrl,function(responseText){
+    	var data = google.visualization.arrayToDataTable(responseText);
+      
+
+    var options = {
+      showTooltip: true,
+      showInfoWindow: true
+    };
+
+    var map = new google.visualization.Map(document.getElementById('example3.1'));
+    map.draw(data, options);
+    });
+
+    
+  }
+</script>
+
+<div id="example3.1" style="height: 200px;"></div>
+  </body>
+</html>

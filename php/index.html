@@ -1,0 +1,20 @@
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<script>
+$.ajax({
+       url : "personalhomepage.php",
+       type : "POST",
+       data : { action: ' addrList'},
+       dataType: "json",
+       success : function (response) {
+          //in your case, you should return from the php method some fomated data that you  //need throw the data var object in param
+             $( "#target" ).html(result);
+            //heres your code
+            
+       },
+});
+
+</script>
+<table id="target">
+</table>

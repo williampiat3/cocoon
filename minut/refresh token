@@ -1,0 +1,7 @@
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YTE3NmY0M2JmYjVkMTAwMDE0ZmIwYTgiLCJyb2xlcyI6WyJtaW51dCJdLCJvcmdJZCI6Im1pbnV0Iiwic2NvcGUiOiIiLCJpYXQiOjE1MTI0NzczNzUsImV4cCI6MTUxMjQ4MDk3NSwiaXNzIjoiTWludXQsIEluYy4ifQ.K8x3k7PAGvioTdQT8t-_8vE10cO09__berj5_qk6cng",
+  "user_id": "5a176f43bfb5d100014fb0a8",
+  "token_type": "Bearer",
+  "expires_in": "3600",
+  "refresh_token": "wC4Lz7nrxMrzJg2lA7GnWOTWRnBJCkKW"
+}

@@ -1,0 +1,1 @@
+SELECT date(created_at),count( DISTINCT conv_id)FROM front_emails WHERE inbox='Flatmates Notifications' GROUP BY date(created_at)

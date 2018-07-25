@@ -1,0 +1,4 @@
+cron:
+- description: daily summary job
+  url: /little
+  schedule: every 2 minutes

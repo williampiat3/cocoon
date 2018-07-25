@@ -1,0 +1,225 @@
+{
+  "distance": "1.93 km",
+  "head": "Jason",
+  "subhead": "Looking in: <a href=\"people/waterloo-2017\">Waterloo</a>, <a href=\"people/mascot-2020\">Mascot</a>, <a href=\"people/camperdown-2050\">Camperdown</a>, <a href=\"people/surry-hills-2010\">Surry Hills</a>, <a href=\"people/strathfield-2135\">Strathfield</a>, <a href=\"people/stanmore-2048\">Stanmore</a>, <a href=\"people/redfern-2016\">Redfern</a>, <a href=\"people/newtown-2042\">Newtown</a>, <a href=\"people/erskineville-2043\">Erskineville</a>, <a href=\"people/ashfield-2131\">Ashfield</a>, <a href=\"people/alexandria-2015\">Alexandria</a>",
+  "description": "I have pets (I seem to be getting messages from listings that don’t allow pets..?) . I'm a 22 year old student at the University of Sydney, currently in my final year studying animal science. I'm mostly based in Camden and I'm there three days a week, and for the rest of the week I'm usually at work, which is at Taronga zoo. Preferably looking for a place close to public transport so I can get to work or uni. I'm a pretty chill person, a bit of a homebody but I do enjoy going out for drinks and partying when the occasion calls for it. I dabble in a few outdoor activities every now and then and go bouldering or hiking, but  i also like being lazy and binge watch tv shows. I'm pretty clean and tidy and can cook some substantial meals (however i am no masterchef). If you are willing to consider them, I'll be moving out with one miniature poodle called Bobby. He doesn't shed or bark, and he is house trained. I also have a budgie called Hera, as well as two mice called ebony and ivory. They are all very clean, don't take up too much space and will probably stay in my room. I will be taking care of all of them, so it won't be of an inconvenience to anyone. I can probably move in straight away, but trying to find time to move in between now and may 5th may be difficult, but we can work something out. Feel free to contact me and we can discuss any further information required. Thanks!",
+  "locality": "Sydney",
+  "photo": "https://flatmates-res.cloudinary.com/image/upload/c_thumb,f_auto,g_face,h_180,q_auto,w_290/v1/profile_images/kmzcstozz6vdf8ailadu.jpg",
+  "memberId": 1680633,
+  "sessionId": "InFDSDNER05xRkQxdDhZcThWbTZLN3NDVCI=--329dc88b5ed91c1fe5b5d52027f8871fd01b5c90",
+  "link": "F2231629",
+  "listing": {
+    "status": 0,
+    "applicant_age": [
+      22
+    ],
+    "views_count": 61,
+    "property_parking_preference": 0,
+    "_score": null,
+    "applicant_names": [
+      "Jason"
+    ],
+    "updated_at": "2018-04-24T23:30:02.586Z",
+    "postcode": [
+      "2017",
+      "2020",
+      "2050",
+      "2010",
+      "2135",
+      "2048",
+      "2016",
+      "2042",
+      "2043",
+      "2131",
+      "2015"
+    ],
+    "listing_link": "/F2231629",
+    "max_rent": 260,
+    "location_id": [
+      288,
+      294,
+      362,
+      279,
+      533,
+      359,
+      287,
+      345,
+      346,
+      529,
+      284
+    ],
+    "id": 2231629,
+    "professions": [
+      "part-time",
+      "student"
+    ],
+    "move_date": "2018-05-05",
+    "applicant_genders": [
+      "male"
+    ],
+    "city": "Sydney",
+    "last_login": "2018-04-24T23:26:14.000Z",
+    "property_internet_preference": 1,
+    "state": [
+      "NSW",
+      "NSW",
+      "NSW",
+      "NSW",
+      "NSW",
+      "NSW",
+      "NSW",
+      "NSW",
+      "NSW",
+      "NSW",
+      "NSW"
+    ],
+    "location_list": [
+      [
+        "Waterloo",
+        "2017"
+      ],
+      [
+        "Mascot",
+        "2020"
+      ],
+      [
+        "Camperdown",
+        "2050"
+      ],
+      [
+        "Surry Hills",
+        "2010"
+      ],
+      [
+        "Strathfield",
+        "2135"
+      ],
+      [
+        "Stanmore",
+        "2048"
+      ],
+      [
+        "Redfern",
+        "2016"
+      ],
+      [
+        "Newtown",
+        "2042"
+      ],
+      [
+        "Erskineville",
+        "2043"
+      ],
+      [
+        "Ashfield",
+        "2131"
+      ],
+      [
+        "Alexandria",
+        "2015"
+      ]
+    ],
+    "teamup": true,
+    "property_type_preferences": [
+      "share-house",
+      "studio",
+      "granny-flat",
+      "1-bed",
+      "student-accommodation",
+      "flatshare"
+    ],
+    "details": [
+      "non-smokers",
+      "have-pets",
+      "no-kids",
+      "lgbt"
+    ],
+    "property_furnished_preference": 0,
+    "location": [
+      [
+        151.20664,
+        -33.9004
+      ],
+      [
+        151.1811052,
+        -33.9383158
+      ],
+      [
+        151.1767348,
+        -33.8899117
+      ],
+      [
+        151.211111,
+        -33.886111
+      ],
+      [
+        151.0762495,
+        -33.8808808
+      ],
+      [
+        151.165081,
+        -33.8920561
+      ],
+      [
+        151.205873,
+        -33.892215
+      ],
+      [
+        151.1793,
+        -33.897
+      ],
+      [
+        151.1854757,
+        -33.9023649
+      ],
+      [
+        151.125756,
+        -33.8909735
+      ],
+      [
+        151.20007,
+        -33.90166
+      ]
+    ],
+    "sort": [
+      1524612602586
+    ],
+    "_type": "person",
+    "listing_image": {
+      "public_id": "profile_images/kmzcstozz6vdf8ailadu",
+      "id": 7904739
+    },
+    "property_bathroom_type_preference": 0,
+    "description": "I have pets (I seem to be getting messages from listings that don’t allow pets..?) . I'm a 22 year old student at the University of Sydney, currently in my final year studying animal science. I'm mostly based in Camden and I'm there three days a week, and for the rest of the week I'm usually at work, which is at Taronga zoo. Preferably looking for a place close to public transport so I can get to work or uni. I'm a pretty chill person, a bit of a homebody but I do enjoy going out for drinks and partying when the occasion calls for it. I dabble in a few outdoor activities every now and then and go bouldering or hiking, but  i also like being lazy and binge watch tv shows. I'm pretty clean and tidy and can cook some substantial meals (however i am no masterchef). If you are willing to consider them, I'll be moving out with one miniature poodle called Bobby. He doesn't shed or bark, and he is house trained. I also have a budgie called Hera, as well as two mice called ebony and ivory. They are all very clean, don't take up too much space and will probably stay in my room. I will be taking care of all of them, so it won't be of an inconvenience to anyone. I can probably move in straight away, but trying to find time to move in between now and may 5th may be difficult, but we can work something out. Feel free to contact me and we can discuss any further information required. Thanks!",
+    "activated_at": "2018-04-23T11:24:09.383Z",
+    "suburb": [
+      "Waterloo",
+      "Mascot",
+      "Camperdown",
+      "Surry Hills",
+      "Strathfield",
+      "Stanmore",
+      "Redfern",
+      "Newtown",
+      "Erskineville",
+      "Ashfield",
+      "Alexandria"
+    ],
+    "length_of_stay": 52,
+    "stay_length": 52,
+    "photo_id": "profile_images/kmzcstozz6vdf8ailadu",
+    "name": "Jason Souryaphanh",
+    "_index": "people_production_20170306145600959",
+    "accommodation_for": "me",
+    "created_at": "2018-04-23T11:23:27.813Z",
+    "plan_ends_at": null,
+    "photo_present": 1,
+    "property_number_occupants_preference": 0,
+    "member_id": 2255209,
+    "_id": "2231629",
+    "age": null
+  },
+  "owner": false,
+  "tileType": "teamup",
+  "ribbon": "New |  $260"
+}

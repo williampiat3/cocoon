@@ -1,0 +1,31 @@
+<html>
+  <head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script>
+    google.charts.load('current', { 'packages': ['map'],"mapsApiKey": "AIzaSyDULVkwawac66AObehBlGJaEuLa7PHby4Q" });
+    google.charts.setOnLoadCallback(drawMap);
+
+    function drawMap() {
+      var data = google.visualization.arrayToDataTable([
+        ['Location', 'City'],
+        ['10 Thurlow Street Redfern', 'Sydney'],
+        ['95 riverview road earlwood', 'Sydney']
+      ]);
+
+    var options = {
+      showTooltip: true,
+      showInfoWindow: true,
+      useMapTypeControl: true
+
+    };
+
+    var map = new google.visualization.Map(document.getElementById('chart_div'));
+
+    map.draw(data, options);
+  };
+  </script>
+  </head>
+  <body>
+    <div id="chart_div" style="width: 400px; height: 300px"></div>
+  </body>
+</html>

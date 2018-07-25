@@ -1,0 +1,37 @@
+
+  <html>
+  <head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {packages: ['corechart', 'bar']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ["Type", "Charbon","Pétrole","Hydraulique","Biomasse","Solaire, Eolien, Géothermique"  ],
+        ["2014", 65, 2362,578,658,1225],
+        ["2013",65, 2306,589,674,1204],
+        ["2010", 65, 2143,625,802,1010],
+        ["2000", 1, 1696,489,248,481],
+        ["1990", 0, 981,291,391,0]
+      ]);
+
+      var view = new google.visualization.DataView(data);
+
+      var options = {
+      	
+        title:'Utilisation énergie en tonne équivalent pétrole',
+        width: 1000,
+        height: 400,
+        isStacked: true
+      };
+      var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
+      chart.draw(view, options);
+  }
+  </script>
+     
+  </head>
+  <body>
+  
+<div id="barchart_values" style="width: 1000px; height: 300px;"></div>
+</body>
+</html>
