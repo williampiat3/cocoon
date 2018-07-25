@@ -1,0 +1,19 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /static
+  static_dir: static
+- url: /.*
+  script: main.app
+
+env_variables:
+    CLOUDSQL_PROJECT: heroic-light-175013
+    CLOUDSQL_CONNECTION_NAME: heroic-light-175013:australia-southeast1:opsdb
+    CLOUDSQL_USER: root
+    CLOUDSQL_PASSWORD: C0coonlyfe
+
+libraries:
+- name: MySQLdb
+  version: "latest"
