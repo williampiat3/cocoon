@@ -62,6 +62,23 @@ It contains the information about the potential future tenants that are sent a m
 
 
 ## Contract process
+![Database structure](pictures/contract_process.png?raw=true "Contracts")
+
+### Step 1: Submitting the form
+The form to perform this step is the following one:
+https://cocoon.formstack.com/forms/new_tenant
+You need to fill all the mandatory fields before submitting, becareful the process doesn't accept duplicate sets of first_name,last_name and email. It will reject any attempt to submit duplicates
+
+### Step 2: Automatic treatment of the information
+The information is sent to this app script web hook
+https://script.google.com/a/cocoon.ly/macros/d/1vPnw2v4QyHcibwwAt9KSxpyTLdaUwgc01QjUOjA6C5CkAAIkGmgm9csf/edit
+It formats the information and creates the tenancy and the tenant in the database. The status of the tenancy is "pending"
+
+### Step 3: The information is sent to the the spreadsheet
+A script triggered every fifteen minutes by an app script trigger (https://script.google.com/a/cocoon.ly/macros/d/MADdHWcEL__3XWUVgmDxCqnevmYI71sMz/edit look for "upload_signed_contracts()" ) is uploading the pending statuses to the house confirmation sheet Where the VAs can approve a tenancy
+
+
+
 
 
 

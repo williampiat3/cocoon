@@ -160,6 +160,9 @@ def big_daddy():
 		except KeyError:
 			pass
 
+		
+		if {}!=toolbox.select_specific("ops.tenants",{"first_name":dict_initial["64515437"],"last_name":dict_initial["64515438"],"email":dict_initial["64515456"]},conn):
+			return get_success()
 		house_info=toolbox.select_db("SELECT * FROM ops.houses WHERE address='"+dict_initial["64515442"]+"'",conn)[0]
 		toolbox.insert_batch([data_tenant],"ops.tenants",conn)
 		data_ao={'status':'prospective',

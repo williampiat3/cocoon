@@ -61,7 +61,10 @@ def select_specific(table,ids,conn):
             result[field_names[i]]=instance[i]
         results.append(result)
     cursor.close()
-    return results[0]
+    try:
+        return results[0]
+    except IndexError:
+        return {}
 
 
 def update_db(query,conn):
