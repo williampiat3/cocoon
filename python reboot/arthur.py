@@ -143,20 +143,27 @@ class Arthur():
 	def update_tenancies_status(self):
 		current_units=toolbox.select_db("SELECT * FROM ops.tenants_history WHERE arthur_id IS NOT NULL AND state='OK' AND NOW()<outgoing_date",self.conn)
 		for unit in current_units:
-
 			tenancy=self.get_tenancy(unit["arthur_id"])
 			room=tenancy["data"]["unit_address_name"].split(" ")[1]
 			new_status=tenancy["data"]["status"]
+			rent_tenant=int(tenancy["data"]["rent_amount"])
 			if  new_status.lower() == "rejected" :
 				print("tenant rejected")
 				toolbox.update_targeted({'state':new_status.lower()},"ops.tenants_history",{"arthur_id":unit["arthur_id"]},self.conn)
 		 		continue
 		 	if new_status.lower() == "approved" and unit["incoming_date"]< datetime.datetime.now().date() and unit["outgoing_date"]>datetime.datetime.now().date():
 		 		self.update_tenancy(unit["arthur_id"],{"status":"current"})
-		 	if unit["signature"]!=None and new_status.lower() == "current":
+		 	if unit["signature"]!=None and new_status.lower() in ["current","periodic","ending"]:
 		 		print("update intel")
 		 		try:
-		 			toolbox.update_targeted({'tenant_nr':"Tenant "+str(room),'incoming_date':tenancy["data"]["move_in_date"],'outgoing_date':tenancy["data"]["move_out_date"]},"ops.tenants_history",{"arthur_id":unit["arthur_id"]},self.conn)
+		 			data_update = {'tenant_nr':"Tenant "+str(room),
+		 			'incoming_date':tenancy["data"]["move_in_date"],
+		 			#'outgoing_date':tenancy["data"]["move_out_date"]
+		 			'rent':rent_tenant,
+		 			}
+		 			if tenancy["data"]["move_out_date"] != None:
+		 				data_update["outgoing_date"]=tenancy["data"]["move_out_date"]
+		 			toolbox.update_targeted(data_update,"ops.tenants_history",{"arthur_id":unit["arthur_id"]},self.conn)
 		 		except:
 		 			pass
 		 		continue

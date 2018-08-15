@@ -64,6 +64,8 @@ It contains the information about the potential future tenants that are sent a m
 ## Contract process
 ![Database structure](pictures/contract_process.png?raw=true "Contracts")
 
+This process has been coded excusively on app script you'll find all the codes in the links given in the description of each step (you won't find the code here)
+
 ### Step 1: Submitting the form
 The form to perform this step is the following one:
 https://cocoon.formstack.com/forms/new_tenant
@@ -77,12 +79,41 @@ It formats the information and creates the tenancy and the tenant in the databas
 ### Step 3: The information is sent to the the spreadsheet
 A script triggered every fifteen minutes by an app script trigger (https://script.google.com/a/cocoon.ly/macros/d/MADdHWcEL__3XWUVgmDxCqnevmYI71sMz/edit look for "upload_signed_contracts()" ) is uploading the pending statuses to the house confirmation sheet Where the VAs can approve a tenancy
 
+### Step 4: The contracts need to be approved by the VAs
+In the house confirmation sheet VAs should approve the tenancy to send the contracts by selecting in the last column to confirm the tenancy the information gets back to the database and the tenancy is now confirmed (https://docs.google.com/spreadsheets/d/14fmklWC6jeQllmRPfzWQp75MO8lqsFBSsjtnxkTJeu8/edit?ts=597850d9#gid=1508496129)
 
 
+### Step 5: Sending the contracts :
+The tenancy is now confirmed and we need to send the contracts to the tenants, the script "get_reports_to_send()" does that: it sends the link for the contracts. To trigger it you need to clic on ACTIONS ->  Validate attribution.
 
+### Step 6: Signing the contracts and passport:
+This step is performed by the tenant, he is clicking on the link we provided him (it is a link of a get webhook https://script.google.com/a/cocoon.ly/macros/d/MADdHWcEL__3XWUVgmDxCqnevmYI71sMz/edit?uiv=2&mid=ACjPJvGOg7GLYIMzALZqxwdL6YIMVCjysEcMeZjw1e4wYftdopc8oz89TMHawYwVhFJvi1oyXLZKWKkWdxHO6KYCRMFOPRKIfwW6dSzYACDLL-ANrDrtG_WmdkW0oqG90jVDxPk-bZ3S5A ) and the contract is generated on the flight that means it takes the up-to-date information in the database and displays it to the tenant and allows him to sign and upload the passport at the bottom of the contract the signature are stored in the Cloud SQL. Once the three contracts are signed we send a copy to the tenant and that's it (signature_hook https://script.google.com/a/cocoon.ly/macros/d/1aKTx_sGOyw0muU3ynJyYERNXoARbWMRbyPLsu2JwDf4pvR8Si4U2J86y/edit?splash=yes).
 
+## Arthur Process
 
+This process is changing the previous contract process to insure that the process allows to handle the profiles on arthur process. This process replaces step 1, step 2, step 3, step 4 and step 5 of the previous process: the differences are the following ones: the deposit form is changed it's now composed of two part and the confirmation is no done on a spreadsheet but on arthur online. here are the details on how it works exactly. all the code is in the cocoon_app folder in this github all the 
 
+## Step 1: Submitting the deposit form:
+it's a similar form like the one described in the previous process (here is the link of the form https://cocoon.formstack.com/forms/new_tenant_copy) however the data is not sent to a app script webhook but it sends the google app engine it sends an email to the tenant to tell him to give us his personal details via another form (please check the main.py file in cocoon/cocoon_app the function associated to '/formstack_deposit' path)
+
+## Step 2: The tenant fills the tenant_information form
+
+The link in the email gives him access to this form (https://cocoon.formstack.com/forms/tenant_information) with a hidden field prefilled that allows us to determine which submission of the deposit form is related to him/her and the information id once again sent to the google app engine to '/formstack_tenant_information' path
+
+## Step 3: Create tenancy on Arthur online and send emails:
+
+The code is still in main.py function whose path is '/formstack_tenant_information'
+
+First we use Formstack's API to get all the data that was submitted in the two previous steps then we use this information to create a tenancy on Arthur Online then use the ID provided on arthur online to create a tenancy in our database (this ID will give our future scripts a way to link the two tenancies, the one in our system and the one in arthur online ) Then we send an email with the information about the prospective tenant to the current tenants
+
+## Step 4: Confirming the tenancy:
+The tenancy needs to be confirmed on Arthur online, it is still a manual step, the status of the tenancy needs to be switched from propective to approved. to do so go to the tenancy panel on arthur online, the tenancy should be there with "prospective" as a status, clic on te dropdown arrow on the right of the line
+
+## Step 5: Sending the contracts:
+If the process has been undeerstood corectly, the readers should understand that at this moment the tenant was confirmed on arthur online but not in the database (no arthur online doesn't handle events there no point to ask) so we need a process that reguraly checks the status of the tenancy and that checks if any detail has changed. A function handles that in the python wrapper of Arthur's API (cocoon/python\ reboot/arthur.py the same class is coded in the cocoon_app folder and it runs periodically on the google compute engine (cron trigger inscribed in the crontab of the will user) 
+
+## Step 6: Signing the contracts and passport:
+This step is the exact same one than in the previous process same functions and same forms
 
 
 
