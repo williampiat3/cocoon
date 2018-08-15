@@ -149,7 +149,7 @@ def big_daddy():
 					"employment_area":dict_tenant["64706803"],
 					#"company_name":dict_tenant["64706826"],
 					"coordinates":",".join(list(map(lambda x: x.split(" = ")[1],dict_tenant["64706779"].split("\n")))),
-					"description":dict_tenant["64707081"],
+					#"description":dict_tenant["64707081"],
 					"emergency_name":dict_tenant["64707109"].split("\n")[0].split(" = ")[1]+" "+dict_tenant["64707109"].split("\n")[1].split(" = ")[1],
 					"emergency_email":dict_tenant["64707111"],
 					"emergency_phone":dict_tenant["64707114"],
@@ -159,6 +159,11 @@ def big_daddy():
 			data_tenant["company_name"]=dict_tenant["64706826"]
 		except KeyError:
 			pass
+		try:
+			data_tenant["description"]=dict_tenant["64707081"]
+		except KeyError:
+			pass
+
 
 		
 		if {}!=toolbox.select_specific("ops.tenants",{"first_name":dict_initial["64515437"],"last_name":dict_initial["64515438"],"email":dict_initial["64515456"]},conn):
@@ -182,10 +187,10 @@ def big_daddy():
 				'Tenancy.tag_cache':'undefined'}
 	except Exception, e:
 		front.send_email(["william.piat3@gmail.com"],"issue1",str(e))
-	# try:
-	# 	intel_ao=arthur_tb.add_tenancy(data_ao,house_info["arthur_id"],dict_initial["64515458"])
-	# except Exception, e:
-	# 	front.send_email(["william.piat3@gmail.com"],"issue2",json.dumps(data_ao))
+	try:
+		intel_ao=arthur_tb.add_tenancy(data_ao,house_info["arthur_id"],dict_initial["64515458"])
+	except Exception, e:
+		front.send_email(["william.piat3@gmail.com"],"issue2",json.dumps(data_ao))
 	try:
 		data_history={#old fields
 					"tenant_id":toolbox.select_specific("ops.tenants",data_tenant,conn)["id"],
@@ -199,7 +204,7 @@ def big_daddy():
 					"multiple_booking":dict_initial["64515459"],
 					"agent":dict_initial["64515465"],
 					"agent_signature":dict_initial["64515466"],
-					#"arthur_id":str(intel_ao["data"]["id"])
+					"arthur_id":str(intel_ao["data"]["id"])
 					}
 		data_ao_tenant={"first_name":dict_initial["64515437"],
 					"last_name": dict_initial["64515438"],
@@ -207,11 +212,11 @@ def big_daddy():
 					"mobile": dict_initial["64515457"]}
 	except Exception, e:
 		front.send_email(["william.piat3@gmail.com"],"issue3",str(e))
-	#try:
-		#returns=arthur_tb.attribute_tenant_to_tenancy(intel_ao["data"]["id"],data_ao_tenant)
-	toolbox.insert_batch([data_history],"ops.tenants_history",conn)
-	#except Exception, e:
-		#front.send_email(["william.piat3@gmail.com"],"issue3",str(e))
+	try:
+		returns=arthur_tb.attribute_tenant_to_tenancy(intel_ao["data"]["id"],data_ao_tenant)
+		toolbox.insert_batch([data_history],"ops.tenants_history",conn)
+	except Exception, e:
+		front.send_email(["william.piat3@gmail.com"],"issue3",str(e))
 	try:
 		query=[]
 		query.append("SELECT t.first_name, t.nationality,  TIMESTAMPDIFF(year,t.birthdate, now() ) AS age,t.sex,t.occupation,t.phone,t.email")

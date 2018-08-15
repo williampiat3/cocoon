@@ -143,7 +143,9 @@ class Arthur():
 	def update_tenancies_status(self):
 		current_units=toolbox.select_db("SELECT * FROM ops.tenants_history WHERE arthur_id IS NOT NULL AND state='OK' AND NOW()<outgoing_date",self.conn)
 		for unit in current_units:
+
 			tenancy=self.get_tenancy(unit["arthur_id"])
+			room=tenancy["data"]["unit_address_name"].split(" ")[1]
 			new_status=tenancy["data"]["status"]
 			if  new_status.lower() == "rejected" :
 				print("tenant rejected")
@@ -153,13 +155,20 @@ class Arthur():
 		 		self.update_tenancy(unit["arthur_id"],{"status":"current"})
 		 	if unit["signature"]!=None and new_status.lower() == "current":
 		 		print("update intel")
-		 		toolbox.update_targeted({'incoming_date':tenancy["data"]["move_in_date"],'outgoing_date':tenancy["data"]["move_out_date"]},"ops.tenants_history",{"arthur_id":unit["arthur_id"]},self.conn)
+		 		try:
+		 			toolbox.update_targeted({'tenant_nr':"Tenant "+str(room),'incoming_date':tenancy["data"]["move_in_date"],'outgoing_date':tenancy["data"]["move_out_date"]},"ops.tenants_history",{"arthur_id":unit["arthur_id"]},self.conn)
+		 		except:
+		 			pass
 		 		continue
 		pending_units=toolbox.select_db("SELECT * FROM ops.tenants_history WHERE arthur_id IS NOT NULL AND state='pending'",self.conn)
 		for unit in pending_units:
 			tenancy=self.get_tenancy(unit["arthur_id"])
 			new_status=tenancy["data"]["status"]
 			print(new_status)
+			if  new_status.lower() == "rejected" :
+				print("tenant rejected")
+				toolbox.update_targeted({'state':new_status.lower()},"ops.tenants_history",{"arthur_id":unit["arthur_id"]},self.conn)
+		 		continue
 			if new_status.lower() == "approved":
 				toolbox.update_targeted({'state':'OK'},"ops.tenants_history",{"arthur_id":unit["arthur_id"]},self.conn)
 				print((unit["incoming_date"]-datetime.datetime.now().date()).days)
@@ -209,6 +218,18 @@ class Arthur():
 
 if __name__=='__main__':
 	conn=toolbox.get_connection()
-	arthur_tb=Arthur(conn)
-	data_ao={"status": "prospective", "move_out_date": "2018-01-17", "rent_amount_weekly": "undefined", "duration": "undefined", "break_clause": "2018-01-17", "tenancy_start": "2018-07-17", "registered_deposit_date": "2018-07-17", "rent_frequency": "weekly", "registered_deposit": "700", "tenancy_end": "2018-01-17", "rent_amount": "350", "Tenancy.tag_cache": "undefined", "status_alias": "undefined", "move_in_date": "2018-07-17", "rent_frequency_id": "undefined"}
-	print(arthur_tb.add_tenancy(data_ao,"51554","Tenant 7"))
+	arthur=Arthur(conn)
+	# #data_ao={"status": "prospective", "move_out_date": "2018-01-17", "rent_amount_weekly": "undefined", "duration": "undefined", "break_clause": "2018-01-17", "tenancy_start": "2018-07-17", "registered_deposit_date": "2018-07-17", "rent_frequency": "weekly", "registered_deposit": "700", "tenancy_end": "2018-01-17", "rent_amount": "350", "Tenancy.tag_cache": "undefined", "status_alias": "undefined", "move_in_date": "2018-07-17", "rent_frequency_id": "undefined"}
+	# InformationTenancies=list(map(lambda x: (x["id"],x["Unit"]["Profile"]["address"],x["renters"]),arthur.get_current_tenancies()))
+	# for IdTenancy,Address,Name in InformationTenancies:
+	# 	try:
+	# 		FirstName,LastName=Name.split()
+	# 		id_tenant=toolbox.select_db("SELECT id FROM tenants WHERE first_name='{0}' AND last_name='{1}'".format(FirstName,LastName),conn)[0]["id"]
+	# 		query="UPDATE tenants_history SET arthur_id='{0}' WHERE tenant_id={1}".format(str(IdTenancy),id_tenant)
+	# 		print(query)
+	# 		toolbox.update_db(query,conn)
+	# 	except:
+	# 		continue
+	# 	"""UPDATE tenants_history SET"
+	# 	toolbox.update_db(query,conn)"""
+	arthur.update_tenancies_status()

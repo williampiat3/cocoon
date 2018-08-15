@@ -100,6 +100,7 @@ def update_targeted(data,table,ids,conn):
 		else:
 			where.append(key+"="+str(info))
 	query="UPDATE "+ table+" SET "+",".join(setting)+ " WHERE "+' AND '.join(where)
+	print(query)
 	cursor.execute(query)
 	conn.commit()
 	cursor.close()
