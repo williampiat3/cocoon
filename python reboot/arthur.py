@@ -95,6 +95,10 @@ class Arthur():
 		endpoint="https://api.arthuronline.co.uk/units/index.json"
 		return self.get_all_pages_data(endpoint,filtered=filtered)
 
+	def get_unit(self,unit_id):
+		endpoint="https://api.arthuronline.co.uk/units/view/{unit_id}.json".format(unit_id=str(unit_id))
+		return self.get_request_headed(endpoint)
+
 	def get_current_properties(self):
 		endpoint="https://api.arthuronline.co.uk/properties/index.json"
 		return self.get_all_pages_data(endpoint)
@@ -145,21 +149,25 @@ class Arthur():
 		for unit in current_units:
 			tenancy=self.get_tenancy(unit["arthur_id"])
 			room=tenancy["data"]["unit_address_name"].split(" ")[1]
+			unit_id=tenancy["data"]["Unit"]["id"]
+			unit_arthur=self.get_unit(unit_id)
+			current_id_house=toolbox.select_specific("ops.houses",{"arthur_id":str(unit_arthur["data"]["property"]["id"])},self.conn)["id"]
 			new_status=tenancy["data"]["status"]
-			rent_tenant=int(tenancy["data"]["rent_amount"])
+			rent_tenant=int(tenancy["data"]["rent_amount"].split(".")[0])
 			if  new_status.lower() == "rejected" :
 				print("tenant rejected")
 				toolbox.update_targeted({'state':new_status.lower()},"ops.tenants_history",{"arthur_id":unit["arthur_id"]},self.conn)
 		 		continue
 		 	if new_status.lower() == "approved" and unit["incoming_date"]< datetime.datetime.now().date() and unit["outgoing_date"]>datetime.datetime.now().date():
 		 		self.update_tenancy(unit["arthur_id"],{"status":"current"})
-		 	if unit["signature"]!=None and new_status.lower() in ["current","periodic","ending"]:
+		 	if new_status.lower() in ["approved","current","periodic","ending"]:
 		 		print("update intel")
 		 		try:
 		 			data_update = {'tenant_nr':"Tenant "+str(room),
 		 			'incoming_date':tenancy["data"]["move_in_date"],
 		 			#'outgoing_date':tenancy["data"]["move_out_date"]
 		 			'rent':rent_tenant,
+		 			"house_id":str(current_id_house)
 		 			}
 		 			if tenancy["data"]["move_out_date"] != None:
 		 				data_update["outgoing_date"]=tenancy["data"]["move_out_date"]
