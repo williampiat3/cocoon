@@ -1,0 +1,179 @@
+{
+  "pagination": {
+    "pageCount": 1,
+    "paramType": "named",
+    "options": [],
+    "prevPage": false,
+    "page": 1,
+    "nextPage": true
+  },
+  "title_for_layout": "TE1772 Tenancy (Jackson Raddysh)",
+  "data": {
+    "move_out_date": null,
+    "rent_insured": false,
+    "unit_address_no_name": "6/32 Ross Street, Forest Lodge, NSW, 2037",
+    "renters_all": "Jackson Raddysh",
+    "deposit": {
+      "payin_book_ref": null,
+      "scheme_name": "",
+      "payment_ident": null,
+      "date_registered": null,
+      "held_by": "",
+      "total": "0.00",
+      "scheme_number": ""
+    },
+    "holding_deposit_amount": null,
+    "rent_amount": "230.00",
+    "agent": null,
+    "renter_active": null,
+    "duration": null,
+    "renters_active": "0",
+    "rent_insured_start": null,
+    "owner": null,
+    "tenant_cannot_change_detail": false,
+    "RecurringFrequencyActive": {
+      "name": null
+    },
+    "rent_insured_paid": null,
+    "id": "97029",
+    "unit": {
+      "id": "129910"
+    },
+    "deposit_registered_total_required": "460.00",
+    "deposit_registered": false,
+    "unit_address": "Bed 5, 6/32 Ross Street, Forest Lodge, NSW, 2037",
+    "DepositPaymentBank": {
+      "reference": null
+    },
+    "agent_entity_id": null,
+    "Section21": {
+      "id": null,
+      "date_expired": null
+    },
+    "created_8601": "2018-04-11T16:18:25+00:00",
+    "rent_insured_length": "",
+    "contract_type_id": "4",
+    "Tenancy": {
+      "manager_person_id": "97730",
+      "entity_id": "32524",
+      "tenant_main": null,
+      "recurring_amount": "230.00",
+      "tag_cache": null,
+      "guarantors_all": null,
+      "tenancy_term": "6 months, 1 day",
+      "extend_date": "0000-00-00 00:00:00",
+      "recurring_amount_active": "230.00",
+      "renter_primary_person_id": "171749"
+    },
+    "company_name": null,
+    "rent_payment_id": "33460",
+    "status_alias": "current",
+    "transactions_deposit_payment": "1150.00",
+    "ref": "TE1772",
+    "move_in_time": null,
+    "RecurringFrequency": {
+      "name": "Weekly"
+    },
+    "status": "Current",
+    "rent_amount_weekly": null,
+    "requested_end_date": null,
+    "rent_grace_days": "0",
+    "status_id": "1",
+    "AgentEntity": {
+      "id": null
+    },
+    "payment": {
+      "bank_name": "Commonwealth Bank",
+      "name": "Bank Transfer",
+      "reference": "Cocoon Savings",
+      "url": null,
+      "notes": null,
+      "sortcode": "062006",
+      "payable_to": null,
+      "iban": "",
+      "account_number": "12336572",
+      "address": "691-693 George St, Haymarket NSW 2000",
+      "swift_code": "CTBAAU2S",
+      "bic_no": "CTBAAU2S",
+      "type": "bank",
+      "account_name": "Cocoon Savings"
+    },
+    "registered_deposit_date": null,
+    "deposit_payment_id": "33460",
+    "tenancy_type_id": "4",
+    "unit_area": null,
+    "deposit_weeks": null,
+    "ending_request": null,
+    "tenancy_start": "2018-03-17",
+    "rent_insured_company": null,
+    "ContractType": {
+      "name": null
+    },
+    "property_address": "6/32 Ross Street, Forest Lodge, NSW, 2037",
+    "rent_insured_end": null,
+    "PrimaryTenantPerson": {
+      "Profile": {
+        "first_name": null,
+        "last_name": null,
+        "phone_work": null,
+        "mobile": null,
+        "phone_home": null,
+        "full_name": null,
+        "email": null
+      }
+    },
+    "break_clause": null,
+    "renters": "Jackson Raddysh",
+    "created": "2018-04-11 16:18:25",
+    "reference_status": null,
+    "rent_frequency": "Weekly",
+    "tenant_access_disabled": false,
+    "transactions_deposit_holding_payment": "0.00",
+    "registered_deposit": null,
+    "Entity": {
+      "Profile": {
+        "mobile": "+61417179460",
+        "address": "Level 3, 11 York Street, Sydney, NSW, 2000",
+        "email": "help@cocoon.ly",
+        "phone_work": "+61417179460",
+        "label": "Cocoon Leasing Pty Ltd"
+      },
+      "id": "32524"
+    },
+    "tenancy_end": "2018-09-17",
+    "move_in_date": null,
+    "move_out_time": null,
+    "RentPaymentBank": {
+      "reference": null
+    },
+    "unit_address_name": "Bed 5",
+    "rent_frequency_id": "5",
+    "guarantor": false,
+    "Unit": {
+      "Profile": {
+        "address": "Bed 5, 6/32 Ross Street, Forest Lodge, NSW, 2037"
+      },
+      "OwnerEntity": {
+        "Profile": {
+          "mobile": null,
+          "email": null,
+          "phone_work": null,
+          "address": null
+        },
+        "BankDefault": {
+          "bank_name": null,
+          "reference": null,
+          "sortcode": null,
+          "iban": null,
+          "account_number": null,
+          "address": null,
+          "swift_code": null,
+          "bic_no": null,
+          "account_name": null
+        }
+      },
+      "id": "129910",
+      "owner_id": null
+    }
+  }
+}

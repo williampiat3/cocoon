@@ -91,29 +91,82 @@ This step is performed by the tenant, he is clicking on the link we provided him
 
 ## Arthur Process
 
-This process is changing the previous contract process to insure that the process allows to handle the profiles on arthur process. This process replaces step 1, step 2, step 3, step 4 and step 5 of the previous process: the differences are the following ones: the deposit form is changed it's now composed of two part and the confirmation is no done on a spreadsheet but on arthur online. here are the details on how it works exactly. all the code is in the cocoon_app folder in this github all the 
+This process is changing the previous contract process to insure that the process allows to handle the profiles on arthur process. This process replaces step 1, step 2, step 3, step 4 and step 5 of the previous process: the differences are the following ones: the deposit form is changed it's now composed of two part and the confirmation is no done on a spreadsheet but on arthur online. here are the details on how it works exactly. all the code in python is in the cocoon_app folder in this github repository.
+
+![Contracts process merged with Arthur](pictures/contracts_v2.png?raw=true "Contracts")
+
+
 
 ### Step 1: Submitting the deposit form:
-it's a similar form like the one described in the previous process (here is the link of the form https://cocoon.formstack.com/forms/new_tenant_copy) however the data is not sent to a app script webhook but it sends the google app engine it sends an email to the tenant to tell him to give us his personal details via another form (please check the main.py file in cocoon/cocoon_app the function associated to '/formstack_deposit' path)
+it's a similar form like the one described in the previous process (here is the link of the form https://cocoon.formstack.com/forms/new_tenant_copy) however the data is not sent to a app script webhook but it sends the google app engine.
 
-### Step 2: The tenant fills the tenant_information form
+### Step 2: First email for getting the personal details of the tenant
+ The google app engine sends an email to the tenant to tell him to give us his personal details via another form (please check the main.py file in cocoon/cocoon_app the function associated to '/formstack_deposit' path)
+
+
+### Step 3: The tenant fills the tenant_information form
 
 The link in the email gives him access to this form (https://cocoon.formstack.com/forms/tenant_information) with a hidden field prefilled that allows us to determine which submission of the deposit form is related to him/her and the information id once again sent to the google app engine to '/formstack_tenant_information' path
 
-### Step 3: Create tenancy on Arthur online and send emails:
+### Step 4: Create tenancy on Arthur online and send emails:
 
 The code is still in main.py function whose path is '/formstack_tenant_information'
 
 First we use Formstack's API to get all the data that was submitted in the two previous steps then we use this information to create a tenancy on Arthur Online then use the ID provided on arthur online to create a tenancy in our database (this ID will give our future scripts a way to link the two tenancies, the one in our system and the one in arthur online ) Then we send an email with the information about the prospective tenant to the current tenants
 
-### Step 4: Confirming the tenancy:
+### Step 5: Confirming the tenancy:
 The tenancy needs to be confirmed on Arthur online, it is still a manual step, the status of the tenancy needs to be switched from propective to approved. to do so go to the tenancy panel on arthur online, the tenancy should be there with "prospective" as a status, clic on te dropdown arrow on the right of the line
 
-### Step 5: Sending the contracts:
+### Step 6: Sending the contracts:
 If the process has been undeerstood corectly, the readers should understand that at this moment the tenant was confirmed on arthur online but not in the database (no arthur online doesn't handle events there no point to ask) so we need a process that reguraly checks the status of the tenancy and that checks if any detail has changed. A function handles that in the python wrapper of Arthur's API (cocoon/python\ reboot/arthur.py the same class is coded in the cocoon_app folder and it runs periodically on the google compute engine (cron trigger inscribed in the crontab of the will user) 
 
-### Step 6: Signing the contracts and passport:
+### Step 7: Signing the contracts and passport:
 This step is the exact same one than in the previous process same functions and same forms
+
+
+## Condition report process
+This process aim at having automated condition reports for a moving out and a moving in tenant. It was coded in app script and all the codes are in the following project:https://script.google.com/a/cocoon.ly/macros/d/MADdHWcEL__3XWUVgmDxCqnevmYI71sMz/edit
+
+![Condition reports](pictures/condition_reports.png?raw=true "Contracts")
+
+### Step 1: Upload an item to a house:
+
+This is still made through formstack because user friendly I guess. To create the list of items in a house you need to upload all the different items on ths form you can select in which house you want to attribute an item, in which room, possessed by which tenant(s)...
+
+### Step 2: Reception of the data by an app script hook:
+ In https://script.google.com/a/cocoon.ly/macros/d/MADdHWcEL__3XWUVgmDxCqnevmYI71sMz/edit
+  look for the function get_new_item() that is treating the information comming from the form and putting it in the database
+
+### Step 3: Creation of the form:
+Made by the function create_form2() still in the same document: https://script.google.com/a/cocoon.ly/macros/d/MADdHWcEL__3XWUVgmDxCqnevmYI71sMz/edit
+it uploads the images and the details for every item in the condition report: this process is very time consumming therefore you'll see that the script is coping with the issue of limited execution time by detecting where it stoped in the last execution it is quite complex to understand all the condition afterwards but is also recreates the form if you add later on a new item in the house
+
+### Step 4: Getting an answer from the tenant
+After sending the condition report to a tenant he/her submits the information of the current state of the items, for each item the tenant has to specify the new condition and give a picture if the state has changed
+
+### Step 5: Choosing actions needed to fix discrepancies
+On the spreadsheet item (in 0_ops) the items with new states appear it is up to the person handling the condition reports to decide which action need to be taken: fix or not the item and to communicate with the flatmates about which actions need to be undertaken. and submit these actions via the toolbar ACTION -> Upload new state
+It changes the state of the item according to what the person has specified
+
+## Minut data recovery
+
+This process is much simpler than the two previous ones there are mostly two actions undertaken by app script scripts
+
+### Pressure, sound, infra ray battery data:
+
+This operation is made by a script called get_data_houses() and it makes regular queries to Point's API to get the data. However the freshest data that we can get is of 6 hours before: not good enough to trigger event in case of a sound level too high. All the data is stored in the table minut_data
+
+### Events 
+Good thing is that Minut is handling events and you can get a lot basicaly all the events are handled by the webhook get_event_minut() that puts all these information in the table minut_event
+
+## Repair form
+
+
+
+## Flatmates script
+
+
+## Content of this repository
 
 
 
