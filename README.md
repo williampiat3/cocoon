@@ -160,13 +160,17 @@ This operation is made by a script called get_data_houses() and it makes regular
 Good thing is that Minut is handling events and you can get a lot basicaly all the events are handled by the webhook get_event_minut() that puts all these information in the table minut_event
 
 ## Repair form
+The repair form is the form that allows us to get the complaints from the tenant and to trace them through a history. The process is still made in app script and is located in the script file repair_form.gs in the app script project https://script.google.com/a/cocoon.ly/macros/d/MADdHWcEL__3XWUVgmDxCqnevmYI71sMz/edit (you should know by now that all the scripts are located in teh same project except 2 webhooks for the Contract process) look for the script get_repair(). 
+It is parsing the content of the form (and yes there are a lot of cases in this form so they are a lot of if) the sum up the issue and ulpoad it to the database and the spreadsheet "issues". It attributes a tracking id to an issue to allow the tenant to insist on a issue and bring new details. 
+
+After an issue was solved you can declare it as solved in the spreadsheet "issues" and then clic on ACTION -> Issue solved
 
 
 
 ## Flatmates script
-
+This scripts is located in the folder python reboot and it is running periodically on the a google compute engine virtual machine. It it sending prospection messages to tenants on flatmates.com.au they are three different messages one for tenants that want a shareroom to pay as little as possible, the message for the tenant that can afford a private room and a last one meant for couples. The three messages are text files
 
 ## Content of this repository
-
+the two main folders of the repository are cocoon_app that contain the app engine application and the folder python reboot that contains all the wrappers for multiple api, all these wrappers are taking the access codes that are in the database in the api_token table. I made wrappers for Arthur online, formstack, front and database client. And they allow you to use "easily" the API. The cocoon app contains there are not much annotations in the codes themselves that I will try to add if i have some time
 
 
