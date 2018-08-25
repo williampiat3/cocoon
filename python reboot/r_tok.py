@@ -1,4 +1,5 @@
 import requests
+import json
 """
 curl -X POST \
           https://auth.arthuronline.co.uk/oauth/token \
@@ -13,14 +14,14 @@ endpoint="https://auth.arthuronline.co.uk/oauth/token"
 headers={'Cache-Control': 'no-cache','Content-Type': 'application/x-www-form-urlencoded'}
 data={
 	'grant_type':'authorization_code',
-	'code':"bf638cba871faf4b12e66104482a265600312a5a",
+	'code':"4c778ce3b2313d46c088645f574dc23e7c3028e0",
 	'client_id':'894d936d45bc48dc2333ed853cb83dd9cf8454f1cf664564e62e509cdd15d9c2',
 	'client_secret':'a9369d98cf46cc9f5c936a574be52c4bf4d18835e44eeed3b225278bd2c66efb',
 	'redirect_uri':"http://0.0.0.0:8000",
-	'state':"IfS88HxV-7O9kgwERWGi3ddonDEPamg9KHyM"
+	'state':"O9M52abI-ACl2g7CcqjdrkMC3DcIslQnqxe8"
 }
 response=requests.post(endpoint,headers=headers,data=data).json()
-print(response)
+print(json.dumps(response))
 
 {u'info': {u'user_id': 14438, u'email': u'marcus@cocoon.ly'},
  u'access_token': u'27e73410611bca1b443b2add104511a6d30db8b5d35ffee70fd5071adcb9d25a',

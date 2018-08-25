@@ -125,6 +125,12 @@ class Arthur():
 		endpoint="https://api.arthuronline.co.uk/tenancies/view/{}.json".format(id_tenancy)
 		return self.get_request_headed(endpoint)
 
+	def get_tenant(self,id_tenant):
+		endpoint="https://api.arthuronline.co.uk/renters/view/{}.json".format(id_tenant)
+		print(endpoint)
+		return self.get_request_headed(endpoint)
+
+
 	def update_tenancy(self,id_tenancy,data):
 		endpoint="https://api.arthuronline.co.uk/tenancies/edit/{}.json".format(str(id_tenancy))
 		
@@ -197,6 +203,21 @@ class Arthur():
 					print(self.create_task('Cocoon',"Please check signature and organise  incoming procedure for "+event_date,date_due=event_date,tenancy_id=unit["arthur_id"]))
 		return True
 
+	def update_tenant_information(self):
+		renters=self.get_renters()
+		match=dict(map(lambda x: (x["tenancy_id"],{"first_name":x["first_name"],"last_name":x["last_name"],"email":x["email"],"phone":x["mobile"]}),renters))
+		for renter in match:
+			tenancies=toolbox.select_db("SELECT * FROM ops.tenants_history WHERE arthur_id='{}'".format(renter),self.conn)
+			id_tenant=None
+			for tenancy in tenancies:
+				id_tenant=tenancy["tenant_id"]
+				break
+			if id_tenant!=None:
+				toolbox.update_targeted(match[renter],"ops.tenants",{"id":id_tenant},self.conn)
+
+	def get_renters(self,filtered={}):
+		endpoint="https://api.arthuronline.co.uk/renters/index.json"
+		return self.get_all_pages_data(endpoint,filtered=filtered)
 
 
 	def get_availabilities(self,limit_date=""):
@@ -248,3 +269,5 @@ if __name__=='__main__':
 	# 	"""UPDATE tenants_history SET"
 	# 	toolbox.update_db(query,conn)"""
 	arthur.update_tenancies_status()
+	arthur.update_tenant_information()
+	

@@ -115,7 +115,7 @@ def db_display():
 		front.send_email(["william.piat3@gmail.com"],"issue",str(e))
 
 	#front.send_email([dict_initial["64515456"]],"Finishing your application for "+dict_initial["64515442"],"Please follow this link to finish your application: \n"+link)
-	front.send_email([dict_initial["64515456"]],"Next steps for moving in",template)
+	front.send_email([dict_initial["64515456"]],"ACTION NEEDED Complete this form NOW so we can approve your tenancy + info within",template)
 	return get_success()
 
 @app.route('/formstack_tenant_information',methods=['POST'])
@@ -123,8 +123,11 @@ def big_daddy():
 	
 	conn=toolbox.get_connection()
 	front=front_tb.Front(conn)
-	arthur_tb=arthur.Arthur(conn)
-	form=formstack.Formstack(conn)
+	try:
+		arthur_tb=arthur.Arthur(conn)
+		form=formstack.Formstack(conn)
+	except Exception, e:
+		front.send_email(["william.piat3@gmail.com"],"issue2",str(e))
 	try:
 		intel=request.get_json()
 		initial_data=form.get_submission(intel["id_sub"])
@@ -150,17 +153,33 @@ def big_daddy():
 					#"company_name":dict_tenant["64706826"],
 					"coordinates":",".join(list(map(lambda x: x.split(" = ")[1],dict_tenant["64706779"].split("\n")))),
 					#"description":dict_tenant["64707081"],
-					"emergency_name":dict_tenant["64707109"].split("\n")[0].split(" = ")[1]+" "+dict_tenant["64707109"].split("\n")[1].split(" = ")[1],
-					"emergency_email":dict_tenant["64707111"],
-					"emergency_phone":dict_tenant["64707114"],
-					"emergency_relation":dict_tenant["64707116"]
+					#"emergency_name":dict_tenant["64707109"].split("\n")[0].split(" = ")[1]+" "+dict_tenant["64707109"].split("\n")[1].split(" = ")[1],
+					#"emergency_email":dict_tenant["64707111"],
+					#"emergency_phone":dict_tenant["64707114"],
+					#"emergency_relation":dict_tenant["64707116"]
 		}
+		try:
+			data_tenant["emergency_name"]=dict_tenant["64707109"].split("\n")[0].split(" = ")[1]+" "+dict_tenant["64707109"].split("\n")[1].split(" = ")[1]
+		except KeyError:
+			pass
+		try:
+			data_tenant["emergency_email"]=dict_tenant["64707111"]
+		except KeyError:
+			pass
+		try:
+			data_tenant["emergency_phone"]=dict_tenant["64707114"]
+		except KeyError:
+			pass
 		try:
 			data_tenant["company_name"]=dict_tenant["64706826"]
 		except KeyError:
 			pass
 		try:
-			data_tenant["description"]=dict_tenant["64707081"]
+			data_tenant["emergency_relation"]=dict_tenant["64707116"]
+		except KeyError:
+			pass
+		try:
+			data_tenant["description"]=dict_tenant["64707081"].replace("'"," ").replace(u'\u2019', " ").replace(u'\u2018', " ")
 		except KeyError:
 			pass
 
@@ -169,7 +188,7 @@ def big_daddy():
 		if {}!=toolbox.select_specific("ops.tenants",{"first_name":dict_initial["64515437"],"last_name":dict_initial["64515438"],"email":dict_initial["64515456"]},conn):
 			return get_success()
 		house_info=toolbox.select_db("SELECT * FROM ops.houses WHERE address='"+dict_initial["64515442"]+"'",conn)[0]
-		toolbox.insert_batch([data_tenant],"ops.tenants",conn)
+		
 		data_ao={'status':'prospective',
 				'status_alias':'undefined',
 				'tenancy_start':dict_initial["64515462"],
@@ -189,8 +208,9 @@ def big_daddy():
 		front.send_email(["william.piat3@gmail.com"],"issue1",str(e))
 	try:
 		intel_ao=arthur_tb.add_tenancy(data_ao,house_info["arthur_id"],dict_initial["64515458"])
+		toolbox.insert_batch([data_tenant],"ops.tenants",conn)
 	except Exception, e:
-		front.send_email(["william.piat3@gmail.com"],"issue2",json.dumps(data_ao))
+		front.send_email(["william.piat3@gmail.com"],"issue2",str(e))
 	try:
 		data_history={#old fields
 					"tenant_id":toolbox.select_specific("ops.tenants",data_tenant,conn)["id"],
