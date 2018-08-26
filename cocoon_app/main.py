@@ -253,7 +253,11 @@ def big_daddy():
 		"occupation":data_tenant["occupation"],
 		"phone":data_tenant["phone"],
 		"email":data_tenant["email"],
+		"description":data_tenant["description"],
+
 		}
+		for i,value in enumerate(list(map(lambda x: x.split(" = ")[1],dict_tenant["64706779"].split("\n")))):
+			data_email_roommates[str(i)]=value
 		with open("templates/tenants_information.html","r") as file:
 			template_t=file.read()
 			template_t=template_t.format(**data_email_roommates)
