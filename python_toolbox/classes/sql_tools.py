@@ -83,7 +83,7 @@ class mysql_conn():
 	
 	def insert_batch(self,data,table,batch=100):
 		try:
-			cursor=conn.cursor()
+			cursor=self.conn.cursor()
 			headers=data[0].keys()
 			nb_batch=len(data)/batch
 			for i in range(nb_batch+1):
@@ -100,7 +100,7 @@ class mysql_conn():
 					values.append("("+",".join(sentence)+")")
 				query="INSERT INTO "+table+" ( "+",".join(headers)+") VALUES "+ ','.join(values)
 				cursor.execute(query)
-			conn.commit()
+			self.conn.commit()
 			cursor.close()
 			return True
 		except IndexError:
