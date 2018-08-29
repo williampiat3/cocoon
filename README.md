@@ -171,6 +171,6 @@ After an issue was solved you can declare it as solved in the spreadsheet "issue
 This scripts is located in the folder python reboot and it is running periodically on the a google compute engine virtual machine. It it sending prospection messages to tenants on flatmates.com.au they are three different messages one for tenants that want a shareroom to pay as little as possible, the message for the tenant that can afford a private room and a last one meant for couples. The three messages are text files
 
 ## Content of this repository
-the two main folders of the repository are cocoon_app that contain the app engine application and the folder python reboot that contains all the wrappers for multiple api, all these wrappers are taking the access codes that are in the database in the api_token table. I made wrappers for Arthur online, formstack, front and database client. And they allow you to use "easily" the API. The cocoon app contains there are not much annotations in the codes themselves that I will try to add if i have some time
+the two main folders of the repository are cocoon_app that contain the app engine application and the folder python_toolbox that contains all the wrappers for multiple api, all these wrappers are taking the access codes that are in the database in the api_token table. I made wrappers for Arthur online, formstack, front and database client. And they allow you to use "easily" the API. The cocoon app contains there are not much annotations in the codes themselves that I will try to add if I have some time
 
 
