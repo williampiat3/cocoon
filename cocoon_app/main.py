@@ -254,10 +254,15 @@ def big_daddy():
 		"phone":data_tenant["phone"],
 		"email":data_tenant["email"],
 		"description":data_tenant["description"],
-
 		}
-		for i,value in enumerate(list(map(lambda x: x.split(" = ")[1],dict_tenant["64706779"].split("\n")))):
-			data_email_roommates[str(i)]=value
+	except Exception, e:
+		front.send_email(["william.piat3@gmail.com"],"issue4",str(e))
+	try:
+		for i,value in enumerate(data_tenant["coordinates"].split(',')):
+			data_email_roommates["p"+str(i)] = value
+	except Exception, e:
+		front.send_email(["william.piat3@gmail.com"],"issue5",str(e))
+	try:
 		with open("templates/tenants_information.html","r") as file:
 			template_t=file.read()
 			template_t=template_t.format(**data_email_roommates)
@@ -266,7 +271,4 @@ def big_daddy():
 		return get_success()
 	except Exception, e:
 		front.send_email(["william.piat3@gmail.com"],"issue",str(e))
-
-
-
 
