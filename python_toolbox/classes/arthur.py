@@ -166,7 +166,7 @@ class Arthur():
 		 		continue
 		 	if new_status.lower() == "approved" and unit["incoming_date"]< datetime.datetime.now().date() and unit["outgoing_date"]>datetime.datetime.now().date():
 		 		self.update_tenancy(unit["arthur_id"],{"status":"current"})
-		 	if new_status.lower() in ["approved","current","periodic","ending"]:
+		 	if new_status.lower() in ["approved","current","periodic","ending","past"]:
 		 		print("update intel")
 		 		try:
 		 			data_update = {'tenant_nr':"Tenant "+str(room),
@@ -249,25 +249,49 @@ class Arthur():
 		return dict(map(lambda x: (x["Profile"]["first_name"],x["Person"]["id"]),self.get_all_pages_data("https://api.arthuronline.co.uk/people/index.json")))
 
 
+def main1():
+	conn=toolbox.get_connection()
+	arthur=Arthur(conn)
+	data_ao={"status": "prospective",
+	 "move_out_date": "2018-07-17",
+	 "rent_amount_weekly": "undefined",
+	 "duration": "undefined",
+	 "break_clause": "2018-07-17",
+	 "tenancy_start": "2018-01-17",
+	 "registered_deposit_date": "2018-07-17",
+	 "rent_frequency": "weekly",
+	 "registered_deposit": "700",
+	 "tenancy_end": "2018-07-17",
+	 "rent_amount": "350",
+	 "Tenancy.tag_cache": "undefined",
+	 "status_alias": "undefined",
+	 "move_in_date": "2018-07-17",
+	 "rent_frequency_id": "5",
+	 "holding_deposit_amount":"350",
+	 "Tenancy.recurring_amount":"355",
+	 # "contract_type_id": "4",
+	 # "ContractType.name":"Assured Shorthold Tenancy"
+	 #"renters_all": "Faisal Amri",
+	 }
+	arthur.add_tenancy(data_ao,str(53060),"Tenant 4")
+
+def main_update():
+	conn=toolbox.get_connection()
+	arthur=Arthur(conn)
+	arthur.update_tenancies_status()
+	arthur.update_tenant_information()
+
+def main3():
+	conn=toolbox.get_connection()
+	arthur=Arthur(conn)
+	print(json.dumps(arthur.get_tenancy(str(117903))))
 
 
 
 if __name__=='__main__':
-	conn=toolbox.get_connection()
-	arthur=Arthur(conn)
-	# #data_ao={"status": "prospective", "move_out_date": "2018-01-17", "rent_amount_weekly": "undefined", "duration": "undefined", "break_clause": "2018-01-17", "tenancy_start": "2018-07-17", "registered_deposit_date": "2018-07-17", "rent_frequency": "weekly", "registered_deposit": "700", "tenancy_end": "2018-01-17", "rent_amount": "350", "Tenancy.tag_cache": "undefined", "status_alias": "undefined", "move_in_date": "2018-07-17", "rent_frequency_id": "undefined"}
-	# InformationTenancies=list(map(lambda x: (x["id"],x["Unit"]["Profile"]["address"],x["renters"]),arthur.get_current_tenancies()))
-	# for IdTenancy,Address,Name in InformationTenancies:
-	# 	try:
-	# 		FirstName,LastName=Name.split()
-	# 		id_tenant=toolbox.select_db("SELECT id FROM tenants WHERE first_name='{0}' AND last_name='{1}'".format(FirstName,LastName),conn)[0]["id"]
-	# 		query="UPDATE tenants_history SET arthur_id='{0}' WHERE tenant_id={1}".format(str(IdTenancy),id_tenant)
-	# 		print(query)
-	# 		toolbox.update_db(query,conn)
-	# 	except:
-	# 		continue
-	# 	"""UPDATE tenants_history SET"
-	# 	toolbox.update_db(query,conn)"""
-	arthur.update_tenancies_status()
-	arthur.update_tenant_information()
+	main1()
+
+	
+
+
 	

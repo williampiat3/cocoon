@@ -200,7 +200,7 @@ def big_daddy():
 				'registered_deposit':str(int(dict_initial["64515461"])*2),
 				'registered_deposit_date':dict_initial["64515462"],
 				'rent_amount':str(dict_initial["64515461"]),
-				'rent_frequency_id':'undefined',
+				'rent_frequency_id':'5',
 				'rent_frequency':'weekly',
 				'rent_amount_weekly':'undefined',
 				'Tenancy.tag_cache':'undefined'}
