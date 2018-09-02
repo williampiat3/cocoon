@@ -268,7 +268,8 @@ def main1():
 	 "move_in_date": "2018-07-17",
 	 "rent_frequency_id": "5",
 	 "holding_deposit_amount":"350",
-	 "Tenancy.recurring_amount":"355",
+	 "transactions_deposit_payment":"450",
+	 # "Tenancy.recurring_amount":"355",
 	 # "contract_type_id": "4",
 	 # "ContractType.name":"Assured Shorthold Tenancy"
 	 #"renters_all": "Faisal Amri",

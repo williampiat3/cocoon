@@ -35,5 +35,8 @@ class Formstack():
 if __name__=='__main__':
 	conn=toolbox.get_connection()
 	form=Formstack(conn)
-	print(len(list(form.get_fields_form(3119475).keys())))
+	tenant_data=form.get_submission(435897919)
+	dict_tenant=dict(map(lambda x: (x['field'],x['value']),tenant_data['data']))
+	print(dict_tenant["64706779"])
+	print(",".join(list(map(lambda x: x.split(" = ")[1],dict_tenant["64706779"].split("\n")))))
 
