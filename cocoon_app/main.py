@@ -179,7 +179,7 @@ def big_daddy():
 		except KeyError:
 			pass
 		try:
-			data_tenant["description"]=dict_tenant["64707081"].replace("'"," ").replace(u'\u2019', " ").replace(u'\u2018', " ")
+			data_tenant["description"]=''.join([i if ord(i) < 128 else ' ' for i in dict_tenant["64707081"].replace("'"," ")])
 		except KeyError:
 			pass
 
