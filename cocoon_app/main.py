@@ -179,14 +179,13 @@ def big_daddy():
 		except KeyError:
 			pass
 		try:
-			data_tenant["description"]=''.join([i if ord(i) < 128 else ' ' for i in dict_tenant["64707081"].replace("'"," ")])
+			data_tenant["description"]=''.join([i if ord(i) < 128 else ' ' for i in dict_tenant["64707081"].replace("'"," ").replace(u'\xc1',"a").replace(u'\U0001f601',"")])
 		except KeyError:
 			pass
 
 
 		
-		if {}!=toolbox.select_specific("ops.tenants",{"first_name":dict_initial["64515437"],"last_name":dict_initial["64515438"],"email":dict_initial["64515456"]},conn):
-			return get_success()
+		
 		house_info=toolbox.select_db("SELECT * FROM ops.houses WHERE address='"+dict_initial["64515442"]+"'",conn)[0]
 		
 		data_ao={'status':'prospective',
@@ -207,13 +206,24 @@ def big_daddy():
 	except Exception, e:
 		front.send_email(["william.piat3@gmail.com"],"issue1",str(e))
 	try:
+		intel_possible_tenancy=toolbox.select_specific("ops.tenants",{"first_name":dict_initial["64515437"],"last_name":dict_initial["64515438"],"email":dict_initial["64515456"]},conn)
+		if {}!=intel_possible_tenant:
+			possible_tenancy=toolbox.select_specific("ops.tenants_history",{"tenant_id":intel_possible_tenant["id"]},conn)
+			if possible_tenancy["house_id"] != house_info["id"]  or possible_tenancy["tenant_nr"] != dict_initial["64515458"]:
+				pass
+				#need to create tenancy but not the tenant then
+			else:
+				#ignoring duplicate
+				return get_success()
+		else:
+			#creating brand new tenant
+			toolbox.insert_batch([data_tenant],"ops.tenants",conn)
 		intel_ao=arthur_tb.add_tenancy(data_ao,house_info["arthur_id"],dict_initial["64515458"])
-		toolbox.insert_batch([data_tenant],"ops.tenants",conn)
 	except Exception, e:
 		front.send_email(["william.piat3@gmail.com"],"issue2",str(e))
 	try:
 		data_history={#old fields
-					"tenant_id":toolbox.select_specific("ops.tenants",data_tenant,conn)["id"],
+					"tenant_id":toolbox.select_specific("ops.tenants",{"first_name":dict_initial["64515437"],"last_name":dict_initial["64515438"],"email":dict_initial["64515456"]},conn)["id"],
 					"tenant_nr":dict_initial["64515458"],
 					"house_id":house_info["id"],
 					"incoming_date":dict_initial["64515462"],
