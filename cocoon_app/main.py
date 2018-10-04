@@ -206,7 +206,7 @@ def big_daddy():
 	except Exception, e:
 		front.send_email(["william.piat3@gmail.com"],"issue1",str(e))
 	try:
-		intel_possible_tenancy=toolbox.select_specific("ops.tenants",{"first_name":dict_initial["64515437"],"last_name":dict_initial["64515438"],"email":dict_initial["64515456"]},conn)
+		intel_possible_tenant=toolbox.select_specific("ops.tenants",{"first_name":dict_initial["64515437"],"last_name":dict_initial["64515438"],"email":dict_initial["64515456"]},conn)
 		if {}!=intel_possible_tenant:
 			possible_tenancy=toolbox.select_specific("ops.tenants_history",{"tenant_id":intel_possible_tenant["id"]},conn)
 			if possible_tenancy["house_id"] != house_info["id"]  or possible_tenancy["tenant_nr"] != dict_initial["64515458"]:
