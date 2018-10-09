@@ -112,7 +112,7 @@ def db_display():
 		template=template.format(**data_email_propective_tenant)
 		template=template.replace("<h3></h3>",' '.join(extension))
 	except Exception, e:
-		front.send_email(["william.piat3@gmail.com"],"issue",str(e))
+		front.send_email(["marcus@cocoon.ly"],"issue",str(e))
 
 	#front.send_email([dict_initial["64515456"]],"Finishing your application for "+dict_initial["64515442"],"Please follow this link to finish your application: \n"+link)
 	front.send_email([dict_initial["64515456"]],"ACTION NEEDED Complete this form NOW so we can approve your tenancy + info within",template)
@@ -127,7 +127,7 @@ def big_daddy():
 		arthur_tb=arthur.Arthur(conn)
 		form=formstack.Formstack(conn)
 	except Exception, e:
-		front.send_email(["william.piat3@gmail.com"],"issue2",str(e))
+		front.send_email(["marcus@cocoon.ly"],"issue2",str(e))
 	try:
 		intel=request.get_json()
 		initial_data=form.get_submission(intel["id_sub"])
@@ -179,7 +179,7 @@ def big_daddy():
 		except KeyError:
 			pass
 		try:
-			data_tenant["description"]=''.join([i if ord(i) < 128 else ' ' for i in dict_tenant["64707081"].replace("'"," ").replace(u'\xc1',"a").replace(u'\xe3',"a").replace(u'\U0001f601',"")])
+			data_tenant["description"]=''.join([i if ord(i) < 128 else ' ' for i in dict_tenant["64707081"].replace("'"," ").replace(u'\xc1',"a").replace(u'\xe3',"a").replace(u'\U0001f601',"").replace(u'\u202d'," ")])
 		except KeyError:
 			pass
 
@@ -204,7 +204,7 @@ def big_daddy():
 				'rent_amount_weekly':'undefined',
 				'Tenancy.tag_cache':'undefined'}
 	except Exception, e:
-		front.send_email(["william.piat3@gmail.com"],"issue1",str(e))
+		front.send_email(["marcus@cocoon.ly"],"issue1",str(e))
 	try:
 		intel_possible_tenant=toolbox.select_specific("ops.tenants",{"first_name":dict_initial["64515437"],"last_name":dict_initial["64515438"],"email":dict_initial["64515456"]},conn)
 		if {}!=intel_possible_tenant:
@@ -220,7 +220,7 @@ def big_daddy():
 			toolbox.insert_batch([data_tenant],"ops.tenants",conn)
 		intel_ao=arthur_tb.add_tenancy(data_ao,house_info["arthur_id"],dict_initial["64515458"])
 	except Exception, e:
-		front.send_email(["william.piat3@gmail.com"],"issue2",str(e))
+		front.send_email(["marcus@cocoon.ly"],"issue2",str(e))
 	try:
 		data_history={#old fields
 					"tenant_id":toolbox.select_specific("ops.tenants",{"first_name":dict_initial["64515437"],"last_name":dict_initial["64515438"],"email":dict_initial["64515456"]},conn)["id"],
@@ -241,12 +241,12 @@ def big_daddy():
 					"email": dict_initial["64515456"],
 					"mobile": dict_initial["64515457"]}
 	except Exception, e:
-		front.send_email(["william.piat3@gmail.com"],"issue3",str(e))
+		front.send_email(["marcus@cocoon.ly"],"issue3",str(e))
 	try:
 		returns=arthur_tb.attribute_tenant_to_tenancy(intel_ao["data"]["id"],data_ao_tenant)
 		toolbox.insert_batch([data_history],"ops.tenants_history",conn)
 	except Exception, e:
-		front.send_email(["william.piat3@gmail.com"],"issue3",str(e))
+		front.send_email(["marcus@cocoon.ly"],"issue3",str(e))
 	try:
 		query=[]
 		query.append("SELECT t.first_name, t.nationality,  TIMESTAMPDIFF(year,t.birthdate, now() ) AS age,t.sex,t.occupation,t.phone,t.email")
@@ -266,12 +266,12 @@ def big_daddy():
 		"description":data_tenant["description"],
 		}
 	except Exception, e:
-		front.send_email(["william.piat3@gmail.com"],"issue4",str(e))
+		front.send_email(["marcus@cocoon.ly"],"issue4",str(e))
 	try:
 		for i,value in enumerate(data_tenant["coordinates"].split(',')):
 			data_email_roommates["p"+str(i)] = value
 	except Exception, e:
-		front.send_email(["william.piat3@gmail.com"],"issue5",str(e))
+		front.send_email(["marcus@cocoon.ly"],"issue5",str(e))
 	try:
 		with open("templates/tenants_information.html","r") as file:
 			template_t=file.read()
@@ -280,5 +280,5 @@ def big_daddy():
 		front.send_email([dict_initial["64515456"]],"Submission notice","Thank you for filling the information form. Now your tenancy is pending, you will receive an email in case your subscription is accepted. Please be reminded to send you bond to the account provided in the last email. Cocoon")
 		return get_success()
 	except Exception, e:
-		front.send_email(["william.piat3@gmail.com"],"issue",str(e))
+		front.send_email(["marcus@cocoon.ly"],"issue",str(e))
 
