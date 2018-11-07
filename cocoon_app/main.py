@@ -8,6 +8,7 @@ import requests
 import arthur
 import formstack
 import datetime
+import logging
 
 def check_authentication(Authorization):
 	conn=toolbox.get_connection()
@@ -27,28 +28,28 @@ def get_success(answer={}):
 	return json.dumps(message)
 
 class InvalidUsage(Exception):
-    status_code = 400
+		status_code = 400
 
-    def __init__(self, message, status_code=None, payload=None):
-        Exception.__init__(self)
-        self.message = message
-        if status_code is not None:
-            self.status_code = status_code
-        self.payload = payload
+		def __init__(self, message, status_code=None, payload=None):
+				Exception.__init__(self)
+				self.message = message
+				if status_code is not None:
+						self.status_code = status_code
+				self.payload = payload
 
-    def to_dict(self):
-        rv = dict(self.payload or ())
-        rv['message'] = self.message
-        return rv
+		def to_dict(self):
+				rv = dict(self.payload or ())
+				rv['message'] = self.message
+				return rv
 
 
 app = Flask(__name__)
 
 @app.errorhandler(InvalidUsage)
 def handle_invalid_usage(error):
-    response = jsonify(error.to_dict())
-    response.status_code = error.status_code
-    return response
+		response = jsonify(error.to_dict())
+		response.status_code = error.status_code
+		return response
 
 # @app.route('/form')
 # def form():
@@ -120,7 +121,6 @@ def db_display():
 
 @app.route('/formstack_tenant_information',methods=['POST'])
 def big_daddy():
-	
 	conn=toolbox.get_connection()
 	front=front_tb.Front(conn)
 	try:
@@ -208,13 +208,19 @@ def big_daddy():
 	try:
 		intel_possible_tenant=toolbox.select_specific("ops.tenants",{"first_name":dict_initial["64515437"],"last_name":dict_initial["64515438"],"email":dict_initial["64515456"]},conn)
 		if {}!=intel_possible_tenant:
-			possible_tenancy=toolbox.select_specific("ops.tenants_history",{"tenant_id":intel_possible_tenant["id"]},conn)
-			if possible_tenancy["house_id"] != house_info["id"]  or possible_tenancy["tenant_nr"] != dict_initial["64515458"]:
+			# GA 20181107 added "rent": int(dict_initial["64515461"]) as search parameter to cover the case where a tenant stays in the same room but agrees to pay a new price
+			# and therefore needs a new contract
+			possible_tenancy=toolbox.select_specific("ops.tenants_history",{"tenant_id":intel_possible_tenant["id"],"rent": int(dict_initial["64515461"])},conn)
+			if {}!=possible_tenancy:
+				if possible_tenancy["house_id"] != house_info["id"] or possible_tenancy["tenant_nr"] != dict_initial["64515458"]:
+					pass
+					#need to create tenancy but not the tenant then
+				else:
+					#ignoring duplicate
+					return get_success()
+			else:
 				pass
 				#need to create tenancy but not the tenant then
-			else:
-				#ignoring duplicate
-				return get_success()
 		else:
 			#creating brand new tenant
 			toolbox.insert_batch([data_tenant],"ops.tenants",conn)
