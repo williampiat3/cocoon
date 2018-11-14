@@ -121,13 +121,16 @@ def db_display():
 
 @app.route('/formstack_tenant_information',methods=['POST'])
 def big_daddy():
+	logging.debug('start')
 	conn=toolbox.get_connection()
 	front=front_tb.Front(conn)
 	try:
 		arthur_tb=arthur.Arthur(conn)
 		form=formstack.Formstack(conn)
+		logging.debug('passed1')
 	except Exception, e:
 		front.send_email(["marcus@cocoon.ly"],"issue2",str(e))
+		logging.debug("a"+str(e))
 	try:
 		intel=request.get_json()
 		initial_data=form.get_submission(intel["id_sub"])
@@ -158,6 +161,7 @@ def big_daddy():
 					#"emergency_phone":dict_tenant["64707114"],
 					#"emergency_relation":dict_tenant["64707116"]
 		}
+		logging.debug('passed2')
 		try:
 			data_tenant["emergency_name"]=dict_tenant["64707109"].split("\n")[0].split(" = ")[1]+" "+dict_tenant["64707109"].split("\n")[1].split(" = ")[1]
 		except KeyError:
@@ -203,8 +207,10 @@ def big_daddy():
 				'rent_frequency':'weekly',
 				'rent_amount_weekly':'undefined',
 				'Tenancy.tag_cache':'undefined'}
+		logging.debug('passed3')
 	except Exception, e:
 		front.send_email(["marcus@cocoon.ly"],"issue1",str(e))
+		logging.debug("b"+str(e))
 	try:
 		intel_possible_tenant=toolbox.select_specific("ops.tenants",{"first_name":dict_initial["64515437"],"last_name":dict_initial["64515438"],"email":dict_initial["64515456"]},conn)
 		if {}!=intel_possible_tenant:
@@ -225,8 +231,10 @@ def big_daddy():
 			#creating brand new tenant
 			toolbox.insert_batch([data_tenant],"ops.tenants",conn)
 		intel_ao=arthur_tb.add_tenancy(data_ao,house_info["arthur_id"],dict_initial["64515458"])
+		logging.debug('passed4')
 	except Exception, e:
 		front.send_email(["marcus@cocoon.ly"],"issue2",str(e))
+		logging.debug("c"+str(e))
 	try:
 		data_history={#old fields
 					"tenant_id":toolbox.select_specific("ops.tenants",{"first_name":dict_initial["64515437"],"last_name":dict_initial["64515438"],"email":dict_initial["64515456"]},conn)["id"],
@@ -246,13 +254,17 @@ def big_daddy():
 					"last_name": dict_initial["64515438"],
 					"email": dict_initial["64515456"],
 					"mobile": dict_initial["64515457"]}
+		logging.debug('passed5')
 	except Exception, e:
 		front.send_email(["marcus@cocoon.ly"],"issue3",str(e))
+		logging.debug("c"+str(e))
 	try:
 		returns=arthur_tb.attribute_tenant_to_tenancy(intel_ao["data"]["id"],data_ao_tenant)
 		toolbox.insert_batch([data_history],"ops.tenants_history",conn)
+		logging.debug('passed6')
 	except Exception, e:
 		front.send_email(["marcus@cocoon.ly"],"issue3",str(e))
+		logging.debug("d"+str(e))
 	try:
 		query=[]
 		query.append("SELECT t.first_name, t.nationality,  TIMESTAMPDIFF(year,t.birthdate, now() ) AS age,t.sex,t.occupation,t.phone,t.email")
@@ -271,20 +283,26 @@ def big_daddy():
 		"email":data_tenant["email"],
 		"description":data_tenant["description"],
 		}
+		logging.debug('passed7')
 	except Exception, e:
 		front.send_email(["marcus@cocoon.ly"],"issue4",str(e))
+		logging.debug("e"+str(e))
 	try:
 		for i,value in enumerate(data_tenant["coordinates"].split(',')):
 			data_email_roommates["p"+str(i)] = value
+		logging.debug('passed8')
 	except Exception, e:
 		front.send_email(["marcus@cocoon.ly"],"issue5",str(e))
+		logging.debug("f"+str(e))
 	try:
 		with open("templates/tenants_information.html","r") as file:
 			template_t=file.read()
 			template_t=template_t.format(**data_email_roommates)
 		front.send_email(emails,"Introducing a future possible housemate",template_t)
 		front.send_email([dict_initial["64515456"]],"Submission notice","Thank you for filling the information form. Now your tenancy is pending, you will receive an email in case your subscription is accepted. Please be reminded to send you bond to the account provided in the last email. Cocoon")
+		logging.debug('passed9')
 		return get_success()
 	except Exception, e:
 		front.send_email(["marcus@cocoon.ly"],"issue",str(e))
+		logging.debug("g"+str(e))
 

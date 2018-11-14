@@ -3,6 +3,7 @@ import toolbox
 import datetime
 import json
 import requests_toolbelt.adapters.appengine
+import logging
 
 # Use the App Engine Requests adapter. This makes sure that Requests uses
 # URLFetch.
@@ -134,20 +135,31 @@ class Arthur():
 		print(pending_units)
 		for unit in pending_units:
 			tenancy=self.get_tenancy(unit["arthur_id"])
+			print(unit["arthur_id"])
+			print(tenancy["data"])
+			print(tenancy["data"]["status"])
+			print(tenancy["data"]["move_out_date"])
+			print(tenancy["data"]["tenancy_end"])
+			print(datetime.datetime.strptime( tenancy["data"]["tenancy_end"], "%Y-%m-%d" ))
 			new_status=tenancy["data"]["status"]
 			if  new_status.lower() == "rejected" :
 				print("tenant rejected")
 				toolbox.update_targeted({'state':new_status.lower()},"ops.tenants_history",{"arthur_id":unit["arthur_id"]},self.conn)
-		 		continue
-		 	if unit["signature"]!=None and new_status.lower() == "prospective":
-		 		#update status on arthur
-		 		self.update_tenancy(unit["arthur_id"],{"status":"approved","renters":"test"})
-		 		print("status update on arthur")
-		 		continue
-		 	if unit["signature"]!=None and new_status.lower() != "prospective":
-		 		print("update intel")
-		 		toolbox.update_targeted({'incoming_date':tenancy["data"]["move_in_date"],'outgoing_date':tenancy["data"]["move_out_date"]},"ops.tenants_history",{"arthur_id":unit["arthur_id"]},self.conn)
-		 		continue
+				continue
+			if unit["signature"]!=None and new_status.lower() == "prospective":
+				#update status on arthur
+				self.update_tenancy(unit["arthur_id"],{"status":"approved","renters":"test"})
+				print("status update on arthur")
+				continue
+			if unit["signature"]!=None and new_status.lower() != "prospective":
+				print("update intel")
+				toolbox.update_targeted({'incoming_date':tenancy["data"]["move_in_date"],'outgoing_date':tenancy["data"]["move_out_date"]},"ops.tenants_history",{"arthur_id":unit["arthur_id"]},self.conn)
+				continue
+			#GA 20181108 adding case when contract is not signed but tenancy ends
+			if unit["signature"]==None and (new_status.lower() == "ending" or new_status.lower() == "past"):
+				print("update intel at end of tenancy even if contract is not signed")
+				toolbox.update_targeted({'incoming_date':tenancy["data"]["move_in_date"],'outgoing_date':tenancy["data"]["move_out_date"]},"ops.tenants_history",{"arthur_id":unit["arthur_id"]},self.conn)
+				continue
 		return True
 
 
@@ -163,7 +175,7 @@ class Arthur():
 				"postcode":unit["postcode"]
 				}
 			if (unit["current_tenant"]==None):
-			 	availabilities[unit["address"]]["available"]=now
+				availabilities[unit["address"]]["available"]=now
 
 			else:
 				try:
